@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+  mining-pool-api:
+    build: .
+    ports:
+      - 9090:9090
+    environment:
+      DATABASE_URL: postgres://postgres:pass@postgres-docker/mining_pool_api
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:14.2
+    hostname: postgres-docker
+    expose:
+      - 5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 0310980
+      POSTGRES_DB: mining_pool_api
+    volumes:
+        - ./migrations/2023-04-04-142337_mining_pool_api/up.sql:/docker-entrypoint-initdb.d/up.sql
